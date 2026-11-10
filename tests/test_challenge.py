@@ -1,7 +1,7 @@
 """Tests oficiales PÚBLICOS del reto: reprogramar una visita con PATCH.
 
-La nota del reto también incluye tests ocultos con más casos borde y datos distintos.
-Pasar estos tests no garantiza pasar los ocultos: lee el contrato completo en README.md.
+Son una muestra: el contrato completo tiene más casos borde y datos distintos.
+Pasar estos tests no garantiza cumplirlo: lee el contrato completo en README.md.
 """
 
 from __future__ import annotations

@@ -2,7 +2,7 @@
 
 - Cada test recibe una base SQLite en memoria nueva (StaticPool): no se crea ningún archivo .db.
 - No se siembran datos de demo: cada test crea exactamente lo que necesita.
-- Este archivo es oficial: el calificador usa siempre la versión oficial.
+- Este archivo es oficial: no lo modifiques.
 """
 
 from __future__ import annotations

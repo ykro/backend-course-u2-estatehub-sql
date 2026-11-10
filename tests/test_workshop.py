@@ -290,7 +290,7 @@ def test_concurrent_reads_and_writes_never_fail(
 
 
 def test_locked_database_answers_503_with_retry_after(tmp_path: Path) -> None:
-    """Si el candado no se libera a tiempo, la API responde 503 DATABASE_BUSY, no 500."""
+    """Si el candado no se libera a tiempo, el API responde 503 DATABASE_BUSY, no 500."""
     db_url = f"sqlite:///{tmp_path / 'ocupada.db'}"
     impatient = build_engine(db_url, busy_timeout=0.2)
     SQLModel.metadata.create_all(impatient)
