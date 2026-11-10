@@ -1,7 +1,7 @@
 """Tests oficiales PÚBLICOS del reto: reprogramar una visita con PATCH.
 
 Son una muestra: el contrato completo tiene más casos borde y datos distintos.
-Pasar estos tests no garantiza cumplirlo: lee el contrato completo en README.md.
+Pasar estos tests no garantiza cumplirlo: lee el contrato completo en la guía del reto del curso.
 """
 
 from __future__ import annotations
