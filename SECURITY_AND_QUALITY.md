@@ -28,6 +28,6 @@ Marca cada casilla solo si lo verificaste en tu código, y escribe al lado **dó
 
 ## 4. Riesgos conocidos (no se resuelven en esta unidad)
 
-Describe en 2 o 3 líneas qué puede hacer hoy un usuario anónimo con esta API y qué tendría que cambiar en la Unidad 3.
+Describe en 2 o 3 líneas qué puede hacer hoy un usuario anónimo con este API y qué tendría que cambiar en la Unidad 3.
 
 > Tu respuesta:

@@ -30,14 +30,14 @@ SEED_DEMO_DATA=true uv run uvicorn app.main:app --reload --port 8000
 | `tests/test_challenge.py` | Reto, tests **públicos**: `PATCH` (6) y agenda de agencia (3) | 9 en rojo |
 | `tests/student/test_my_scenarios.py` | **Tus** tests (2 plantillas con `pytest.fail`) | 2 en rojo |
 
-No modifiques los tests oficiales ni el workflow: el calificador usa siempre su propia copia y reporta cualquier cambio.
+No modifiques los tests oficiales ni el workflow: cambiarlos cuenta como sospecha de integridad en la rúbrica.
 
-## Reglas comunes de la API
+## Reglas comunes del API
 
 - Ids de ruta y de cuerpo: enteros de 1 a 2147483647. `page`: de 1 a 10000. `size`: de 1 a 50. Precios: hasta 50000000. Fuera de rango: **422**, nunca 500.
 - Toda fecha se expresa en UTC. Una fecha con zona horaria se convierte (`2027-06-04T10:00:00-06:00` son las `16:00:00Z`); una sin zona se interpreta como UTC; una fecha que no cabe al convertirla a UTC (por ejemplo `0001-01-01T00:00:00+05:00`) es un 422. En una query string, el `+` de la zona horaria se escribe `%2B`.
 - Los errores usan el sobre `{"error": {"code": ..., "message": ...}}`. Los de validación (`VALIDATION_ERROR`) traen además `details` con `loc`, `msg` (en español, de `app/validation_es.py`) y `type`.
-- **Concurrencia.** Las lecturas no toman candados. Una operación que verifica y luego escribe empieza con `begin_write(self.session)` (de `app/database.py`): en SQLite abre la transacción con `BEGIN IMMEDIATE`, así ninguna otra escritura se intercala entre la verificación y la escritura. Si la base sigue ocupada después de 10 segundos de espera, la API responde **503** `DATABASE_BUSY` con `Retry-After`. `tests/test_workshop.py` lo comprueba con hilos.
+- **Concurrencia.** Las lecturas no toman candados. Una operación que verifica y luego escribe empieza con `begin_write(self.session)` (de `app/database.py`): en SQLite abre la transacción con `BEGIN IMMEDIATE`, así ninguna otra escritura se intercala entre la verificación y la escritura. Si la base sigue ocupada después de 10 segundos de espera, el API responde **503** `DATABASE_BUSY` con `Retry-After`. `tests/test_workshop.py` lo comprueba con hilos.
 
 ## Reto autónomo (2 partes)
 
@@ -88,7 +88,7 @@ El paso 1 lo hace FastAPI antes de llamar a tu código. Cuando una petición fal
 GET /api/v1/agencies/{agency_id}/visits?from=<fecha>&to=<fecha>
 ```
 
-Devuelve las visitas de **todas** las propiedades de la agencia (cualquier estado) que se traslapan con el rango semiabierto `[from, to)`: una visita entra si `scheduled_start < to` y `scheduled_end > from`. Una visita que termina exactamente en `from` o empieza exactamente en `to` no entra; una que empezó antes de `from` y sigue en curso, sí. `from` y `to` son obligatorios, en ISO 8601, normalizados a UTC como el resto de la API.
+Devuelve las visitas de **todas** las propiedades de la agencia (cualquier estado) que se traslapan con el rango semiabierto `[from, to)`: una visita entra si `scheduled_start < to` y `scheduled_end > from`. Una visita que termina exactamente en `from` o empieza exactamente en `to` no entra; una que empezó antes de `from` y sigue en curso, sí. `from` y `to` son obligatorios, en ISO 8601, normalizados a UTC como el resto del API.
 
 **Respuesta exitosa:** `200 OK` con una lista JSON (vacía si no hay visitas), ordenada por `scheduled_start` ascendente y, en empate, por `id` ascendente:
 
@@ -110,9 +110,9 @@ Devuelve las visitas de **todas** las propiedades de la agencia (cualquier estad
 | 2 | `to` no es posterior a `from`, o el rango supera 31 días (31 días exactos sí se aceptan) | 422 | `INVALID_DATE_RANGE` |
 | 3 | La agencia no existe | 404 | `AGENCY_NOT_FOUND` |
 
-### Tests ocultos
+### Más allá de los tests públicos
 
-Los tests públicos de `tests/test_challenge.py` no cubren todos los bordes del contrato. La nota del reto incluye **tests ocultos** con más casos y datos distintos, escritos solo a partir de este contrato. Te lo decimos de antemano: no sirve programar contra los tests públicos; sirve cumplir el contrato.
+Los tests públicos de `tests/test_challenge.py` no cubren todos los bordes del contrato. El reto se mide contra el contrato completo, con más casos y datos distintos. Te lo decimos de antemano: no sirve programar contra los tests públicos; sirve cumplir el contrato.
 
 ## Tus tests propios
 
@@ -124,7 +124,7 @@ Reemplaza las 2 plantillas de `tests/student/test_my_scenarios.py` por al menos 
 | :--- | ---: | :--- |
 | Taller guiado | 20 | `tests/test_workshop.py`, proporcional |
 | Reto, tests públicos | 10 | `tests/test_challenge.py`, proporcional |
-| Reto, tests ocultos | 30 | Tests ocultos, proporcional |
+| Reto, contrato completo | 30 | los casos del contrato que los tests públicos no cubren, con más bordes y datos distintos, proporcional |
 | Tests propios | 15 | Pasan contra la solución de referencia y detectan mutantes que la suite pública no detecta (los errores sembrados se agrupan por concepto: 2 conceptos distintos = completo, 1 = mitad) |
 | ADR y checklist | 15 | revisión manual: ADR 10, checklist 2, sección propia de `AGENTS.md` 2 y declaración de uso de IA 1 |
 | Calidad e integridad | 10 | `ruff check` y `ruff format --check` limpios (5) + sin sospechas de integridad (5) |
@@ -132,26 +132,7 @@ Reemplaza las 2 plantillas de `tests/student/test_my_scenarios.py` por al menos 
 
 Los quizzes de la unidad se responden en la plataforma del curso y no forman parte de los 100 puntos del laboratorio.
 
-El CI de GitHub (`.github/workflows/ci.yml`) es retroalimentación, no la nota. La nota oficial la calcula el calificador del curso con tests ocultos, mutantes y una revisión de integridad. Se reporta como sospecha: cambiar tests oficiales o el workflow, un `conftest.py` dentro de `tests/student/`, y en `app/` o `tests/student/` cualquier import fuera de lo habitual del proyecto (FastAPI, SQLModel, SQLAlchemy, Pydantic y la biblioteca estándar de datos y fechas), usar `os` para algo distinto de leer variables de entorno, abrir archivos, `pathlib`, `sys`, `eval`/`exec` o mencionar `pytest` dentro de `app/`.
-
-<!-- texto-escaner:inicio (generado por scripts/texto_escaner.py; no editar a mano) -->
-
-### Qué marca el escáner del calificador
-
-El calificador revisa tu código y tus tests antes de correrlos. Si encuentra algo de esta lista, tu nota queda **retenida** hasta que el docente la revise: no pierdes puntos automáticamente, pero tampoco se publica. Nada de esto hace falta para resolver los retos.
-
-**Por qué existe.** Tus tests corren en la misma máquina que los tests ocultos. Lo que se marca es lo que permitiría leer esos tests, cambiar el resultado de las pruebas o salir a internet desde el calificador.
-
-**En este proyecto (Python).**
-
-- En `app/` puedes importar: `__future__`, `abc`, `app`, `base64`, `bisect`, `collections`, `contextlib`, `copy`, `dataclasses`, `datetime`, `decimal`, `enum`, `fastapi`, `functools`, `google.genai`, `hashlib`, `heapq`, `hmac`, `html`, `itertools`, `json`, `jwt`, `logging`, `math`, `operator`, `os` (solo `os.environ` y `os.getenv`), `pydantic`, `pydantic_settings`, `re`, `secrets`, `sqlalchemy`, `sqlmodel`, `starlette`, `statistics`, `string`, `textwrap`, `threading`, `time`, `typing`, `typing_extensions`, `unicodedata`, `uuid` y `zoneinfo`.
-- En `tests/student/` puedes importar: `__future__`, `abc`, `app`, `asyncio`, `base64`, `collections`, `concurrent.futures`, `contextlib`, `copy`, `dataclasses`, `datetime`, `decimal`, `enum`, `fastapi`, `functools`, `hashlib`, `hmac`, `itertools`, `json`, `jwt`, `math`, `operator`, `pydantic`, `pytest`, `random`, `re`, `sqlalchemy`, `sqlmodel`, `starlette`, `statistics`, `string`, `tests`, `textwrap`, `threading`, `time`, `typing`, `unicodedata`, `unittest` (incluido `unittest.mock`), `uuid` y `zoneinfo`.
-- Sí puedes: `chr(0x200B)` y cualquier `chr`, unir textos (`"a" + "b"`, f-strings), `vars(objeto)` para comparar (`assert vars(x) == {...}`), `mock.patch("app.…")`, `mock.patch.dict("os.environ", {...})`, `monkeypatch.setenv`, `random` y `functools.singledispatch`.
-- Se marca: `eval`, `exec`, `compile`, `open`, `input`, `breakpoint`, `globals`, `locals`, `__import__`, `memoryview`; `vars()` sin argumentos o usado para indexar, recorrer o guardar; `getattr`/`setattr`/`hasattr`/`delattr` con un nombre que no es un texto fijo (salvo sobre `self` o `cls`) o con un nombre prohibido; `operator.attrgetter`/`methodcaller` con nombres calculados o prohibidos; atributos mágicos (`__dict__`, `__globals__`, `__subclasses__`…, salvo `__name__`, `__init__`, `__class__` y `__all__`); acceso a módulos del sistema a través de otro objeto (`.sys`, `.builtins`, `.subprocess`, `.inspect`, `.io`, `.os` fuera de `environ`/`getenv`…); frames (`_getframe`, `f_back`…); procesos y archivos (`system`, `popen`, `fork`, `exec*`, `create_subprocess_exec`, `read_text`, `write_text`, `listdir`, `chdir`, `unlink`…); variables de entorno leídas con un nombre calculado o recorridas (en `app/`); textos, aunque estén armados por partes, que mencionen `pytest`, `junit`, `AWA_`, `site-packages`, `builtins` o atributos mágicos (en `app/`). En tests, además: rutas de módulos no permitidos escritas como texto (`mock.patch("subprocess.run")`, `"_pytest…"`), hooks de pytest (`def pytest_…`), `pytest_plugins`, `request.config.pluginmanager`/`hook`, y los internos de `mock.patch` y `monkeypatch` (`temp_original`, `getter`, `_setattr`); un `conftest.py` propio.
-
-**En todos los proyectos** se marca además: modificar o borrar archivos oficiales, agregar archivos fuera de tus carpetas, enlaces simbólicos, y archivos como `sitecustomize.py`, `pytest.ini`, `init.gradle` o `.npmrc`. Y tus tests deben dar siempre el mismo resultado: un test que falla al azar no cuenta.
-
-<!-- texto-escaner:fin -->
+El CI de GitHub (`.github/workflows/ci.yml`) es retroalimentación: corre los tests oficiales, no todo el contrato. Cuenta como sospecha de integridad: cambiar tests oficiales o el workflow, un `conftest.py` dentro de `tests/student/`, y en `app/` o `tests/student/` cualquier import fuera de lo habitual del proyecto (FastAPI, SQLModel, SQLAlchemy, Pydantic y la biblioteca estándar de datos y fechas), usar `os` para algo distinto de leer variables de entorno, abrir archivos, `pathlib`, `sys`, `eval`/`exec` o mencionar `pytest` dentro de `app/`.
 
 ## Antes de entregar
 
@@ -162,4 +143,4 @@ El calificador revisa tu código y tus tests antes de correrlos. Si encuentra al
 
 ## Seguridad: lo que esta unidad todavía no protege
 
-La API no tiene autenticación: cualquiera puede listar, mover o cancelar visitas. Por eso las respuestas públicas nunca exponen el correo completo del visitante (`visitor_email_masked`). La autenticación con JWT y el control de dueño llegan en la Unidad 3.
+El API no tiene autenticación: cualquiera puede listar, mover o cancelar visitas. Por eso las respuestas públicas nunca exponen el correo completo del visitante (`visitor_email_masked`). La autenticación con JWT y el control de dueño llegan en la Unidad 3.

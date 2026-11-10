@@ -34,7 +34,7 @@ Diez personas intentan reservar el mismo horario al mismo tiempo. ¿Por qué "co
 
 ## 6. Persistencia y varios procesos
 
-Explica qué pasa con los datos al reiniciar la API con `ESTATEHUB_DATABASE_URL=sqlite://` y con un archivo, qué pasaría con 3 procesos que tuvieran cada uno su propia base, y qué cambiarías en este proyecto para usar un servidor de base de datos como PostgreSQL (archivos y variables concretos).
+Explica qué pasa con los datos al reiniciar el API con `ESTATEHUB_DATABASE_URL=sqlite://` y con un archivo, qué pasaría con 3 procesos que tuvieran cada uno su propia base, y qué cambiarías en este proyecto para usar un servidor de base de datos como PostgreSQL (archivos y variables concretos).
 
 > Tu respuesta:
 
