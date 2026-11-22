@@ -1,4 +1,4 @@
-"""Tests oficiales del taller guiado: list_properties y schedule_visit (rojo en el starter)."""
+"""Tests del taller guiado: list_properties y schedule_visit (rojo en el starter)."""
 
 from __future__ import annotations
 

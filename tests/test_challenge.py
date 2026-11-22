@@ -1,6 +1,6 @@
-"""Tests oficiales PÚBLICOS del reto: reprogramar una visita con PATCH.
+"""Tests del reto: reprogramar una visita con PATCH y la agenda de una agencia.
 
-Son una muestra: el contrato completo tiene más casos borde y datos distintos.
+Cubren parte del contrato: el contrato completo tiene más edge cases y datos distintos.
 Pasar estos tests no garantiza cumplirlo: lee el contrato completo en la guía del reto del curso.
 """
 

@@ -1,13 +1,15 @@
 """Tus tests propios.
 
-Tus tests propios suman si pasan contra la solución de referencia y detectan mutantes que
-la suite pública no detecta (errores sembrados en el reto). Reescribir un
-test público no suma.
+Un buen test propio pasa con tu código y falla si siembras a propósito un error plausible
+que los tests de la plantilla no atrapan: por ejemplo, un traslape con <= o una visita
+buscada sin su propiedad. Compruébalo: mete el error, corre `uv run pytest tests/student -v`,
+confirma que tu test falla y deshaz el cambio con `git restore`. Reescribir un test de la
+plantilla no atrapa nada nuevo.
 
 Reglas:
 - Usa los fixtures de tests/conftest.py (client, engine, make_agency, make_property, book_visit).
 - No crees conftest.py en esta carpeta.
-- Cada test debe describir un escenario distinto a los tests públicos, con datos propios
+- Cada test debe describir un escenario distinto a los tests de la plantilla, con datos propios
   y aserciones concretas sobre códigos HTTP y cuerpos JSON.
 """
 

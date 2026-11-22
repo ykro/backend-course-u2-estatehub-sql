@@ -315,6 +315,7 @@ def schedule_property_visit(
 
 
 # =============================================================================
-# RETO AUTÓNOMO: PATCH de visitas y agenda de agencia. El contrato está en la guía del reto del curso.
+# RETO AUTÓNOMO: PATCH de visitas y agenda de agencia.
+# El contrato está en la guía del reto del curso.
 # Aquí van tus rutas; la lógica y las consultas, en el repositorio.
 # =============================================================================

@@ -238,5 +238,6 @@ class EstateRepository:
         raise NotImplementedError("Taller parte 2: implementa schedule_visit")
 
     # =========================================================================
-    # RETO AUTÓNOMO: reprogramar visitas (PATCH) y agenda de agencia. Contrato en la guía del reto del curso.
+    # RETO AUTÓNOMO: reprogramar visitas (PATCH) y agenda de agencia.
+    # Contrato en la guía del reto del curso.
     # =========================================================================

@@ -1,4 +1,4 @@
-"""Tests oficiales de la demo: pasan desde el starter."""
+"""Tests de la demo: pasan desde el starter."""
 
 from __future__ import annotations
 

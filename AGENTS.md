@@ -30,7 +30,7 @@ Este archivo describe las invariantes que cualquier asistente de IA (Copilot, Cu
 
 ## 5. Tests y calidad
 
-- Los tests oficiales (`tests/conftest.py`, `tests/test_demo.py`, `tests/test_workshop.py`, `tests/test_challenge.py`) y `.github/workflows/ci.yml` no se modifican.
+- Los tests de la plantilla (`tests/conftest.py`, `tests/test_demo.py`, `tests/test_workshop.py`, `tests/test_challenge.py`) y `.github/workflows/ci.yml` no se modifican.
 - Los tests propios viven en `tests/student/` y no usan `conftest.py` propio.
 - Antes de cada commit: `uv run ruff check .`, `uv run ruff format --check .` y `uv run pytest -v`.
 - El código de `app/` nunca consulta si se está ejecutando bajo pytest ni lee archivos de `tests/`.

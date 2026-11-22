@@ -1,8 +1,8 @@
-"""Fixtures oficiales y herméticos de la Unidad 2.
+"""Fixtures herméticos de la Unidad 2.
 
 - Cada test recibe una base SQLite en memoria nueva (StaticPool): no se crea ningún archivo .db.
 - No se siembran datos de demo: cada test crea exactamente lo que necesita.
-- Este archivo es oficial: no lo modifiques.
+- Este archivo es parte de la plantilla: no lo modifiques.
 """
 
 from __future__ import annotations

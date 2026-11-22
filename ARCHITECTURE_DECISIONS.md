@@ -1,6 +1,6 @@
 # ARCHITECTURE_DECISIONS.md (Unidad 2)
 
-Responde con tus palabras y con referencias concretas a tu código (archivo y función). Respuestas genéricas o copiadas de la documentación no suman puntos. Extensión sugerida: 4 a 8 líneas por pregunta.
+Responde con tus palabras y con referencias concretas a tu código (archivo y función). Una respuesta genérica o copiada de la documentación no muestra tus decisiones. Extensión sugerida: 4 a 8 líneas por pregunta.
 
 ## 1. Capas
 
