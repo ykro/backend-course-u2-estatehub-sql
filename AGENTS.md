@@ -1,6 +1,6 @@
 # AGENTS.md: reglas para asistentes de IA (EstateHub SQL)
 
-Este archivo describe las invariantes que cualquier asistente de IA (Copilot, Cursor, Claude Code, Antigravity, Gemini) y cualquier persona deben respetar al modificar este proyecto. Es una **base**: como parte de la entrega se amplía con al menos una regla propia (ver la pregunta 7 de `ARCHITECTURE_DECISIONS.md`).
+Este archivo describe las invariantes que cualquier asistente de IA (Copilot, Cursor, Claude Code, Antigravity, Gemini) y cualquier persona deben respetar al modificar este proyecto. Es una **base**: como parte del reto la amplías con al menos una regla propia (ver la pregunta 7 de `ARCHITECTURE_DECISIONS.md`).
 
 ## 1. Capas
 
